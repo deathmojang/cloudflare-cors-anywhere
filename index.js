@@ -45,7 +45,7 @@ addEventListener("fetch", async event=>{
             }
             return myHeaders;
         }
-        var fetch_url = unescape(unescape(origin_url.pathname.substr(1)));
+        var fetch_url = unescape(unescape(event.request.url.substr(origin_url.origin.length + 1)));
 
         var orig = event.request.headers.get("Origin");
         
@@ -61,7 +61,7 @@ addEventListener("fetch", async event=>{
                 } catch (e) {}
             }
 
-            if (origin_url.pathname.length > 1) {
+            if (event.request.url.length > origin_url.origin.length + 1) {
                 recv_headers = {};
                 for (var pair of event.request.headers.entries()) {
                     if ((pair[0].match("^origin") == null) && 
